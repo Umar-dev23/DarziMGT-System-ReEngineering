@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dmsorderview</title>
+    <link rel="stylesheet" href="StyleSheet.css" />
+    <style>
+      #grdOrder {
+        margin: 10px auto;
+        width: 1350px;
+        text-align: center;
+        font-size: large;
+        color: black;
+        background-color: white;
+      }
+      .auto-style1 {
+        width: 150px;
+        height: 25px;
+      }
+      .auto-style2 {
+        height: 25px;
+      }
+      .auto-style3 {
+        width: 85px;
+        height: 35px;
+        font-family: "Times New Roman";
+        font-weight: bold;
+        font-size: large;
+        margin-left: 53px;
+        border: 2px solid black;
+        border-radius: 8px;
+        background-color: white;
+        cursor: pointer;
+      }
+      #lblmessage {
+        font-size: 15px;
+        color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="secOrderView" class="secMain">
+      <div>
+        <section class="secTop">
+          <label id="lblOrder" class="lblHead">Order</label>&nbsp;
+          <table id="tblBtn">
+            <tr>
+              <td class="auto-style2">
+                <button
+                  class="btnTop"
+                  id="btnOrdDelete"
+                  onclick="deleteOrder()"
+                >
+                  Delete</button
+                >&nbsp;
+              </td>
+              <td class="auto-style2">&nbsp;</td>
+              <td class="auto-style2">
+                <input
+                  type="text"
+                  class="txtSearch"
+                  id="txtsearch"
+                  placeholder="Search"
+                />
+              </td>
+              <td class="auto-style2">
+                <button
+                  class="auto-style3"
+                  id="btnOrdSearch"
+                  onclick="searchOrder()"
+                >
+                  Search</button
+                >&nbsp;
+              </td>
+              <td class="auto-style2">
+                <button
+                  class="btnTop"
+                  id="btnOrder"
+                  onclick="window.location.href='frmOrder.html'"
+                >
+                  Order</button
+                >&nbsp;
+              </td>
+              <td class="auto-style2">
+                <button
+                  class="btnTop"
+                  id="btnOrdHome"
+                  onclick="window.location.href='frmMain.html'"
+                >
+                  Home</button
+                >&nbsp;
+              </td>
+              <td class="auto-style1">
+                <span id="lblmessage"></span>
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <table id="grdOrder">
+          <thead>
+            <tr
+              style="background-color: #adaaaa; font-weight: bold; color: black"
+            >
+              <th>Column 1</th>
+              <th>Column 2</th>
+              <th>Column 3</th>
+              <!-- Add more columns as needed -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background-color: #b389fa">
+              <td>Data 1</td>
+              <td>Data 2</td>
+              <td>Data 3</td>
+            </tr>
+            <tr>
+              <td>Data 4</td>
+              <td>Data 5</td>
+              <td>Data 6</td>
+            </tr>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <script>
+      function deleteOrder() {
+        alert("Delete button clicked");
+      }
+
+      function searchOrder() {
+        const searchValue = document.getElementById("txtsearch").value;
+        alert("Search for: " + searchValue);
+      }
+
+      function order() {
+        alert("Order button clicked");
+      }
+
+      function goHome() {
+        alert("Home button clicked");
+      }
+    </script>
+  </body>
+</html>

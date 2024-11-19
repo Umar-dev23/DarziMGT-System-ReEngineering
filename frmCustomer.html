@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>dmscustomer</title>
+    <link rel="stylesheet" href="StyleSheet.css" />
+    <style>
+      #lblmessage {
+        font-size: 23px;
+        background-color: red;
+        color: yellow;
+      }
+      .secLeft {
+        height: 230px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="frmCustomer">
+      <section id="secCustomer" class="secMain">
+        <div>
+          <!-- Top Section_label and button -->
+          <section class="secTop">
+            <label id="lblCustomer" class="lbl">Customer Registration</label>
+            <table id="tblBtn">
+              <tr>
+                <td>
+                  <button id="btnCusdelete" class="btnTop" type="button">
+                    Delete</button
+                  >&nbsp;
+                </td>
+                <td>
+                  <button id="btnCusupdate" class="btnTop" type="button">
+                    Update</button
+                  >&nbsp;
+                </td>
+                <td>
+                  <input type="text" id="txtsearch" class="txtSearch" />
+                </td>
+                <td>
+                  <button id="btnCusSearch" class="btnTop" type="button">
+                    Search</button
+                  >&nbsp;
+                </td>
+                <td>
+                  <button
+                    id="btnCushome"
+                    class="btnTop"
+                    type="button"
+                    onclick="window.location.href='frmMain.html'"
+                  >
+                    Home</button
+                  >&nbsp;
+                </td>
+              </tr>
+            </table>
+          </section>
+
+          <section class="flexContainer">
+            <section class="secLeft">
+              <table id="tblCustomer">
+                <tr>
+                  <td><label id="lblCusname">Name</label>&nbsp;</td>
+                  <td><input type="text" id="txtCusname" />&nbsp;</td>
+                </tr>
+                <tr>
+                  <td><label id="lblCusphone">Phone</label>&nbsp;</td>
+                  <td><input type="text" id="txtCusphone" />&nbsp;</td>
+                </tr>
+                <tr>
+                  <td><label id="lblCusaddress">Address</label>&nbsp;</td>
+                  <td><input type="text" id="txtCusaddress" />&nbsp;</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>
+                    <button id="btnCusadd" class="btnLeft" type="button">
+                      Add
+                    </button>
+                    <button id="btnCuscancel" class="btnLeft" type="button">
+                      Cancel
+                    </button>
+                  </td>
+                </tr>
+              </table>
+              <label id="lblmessage"></label>
+            </section>
+
+            <section class="secDown">
+              <div id="grdCustomer" class="grd">
+                <!-- GridView representation can be a table -->
+                <table>
+                  <thead
+                    style="
+                      background-color: #adaaaa;
+                      font-weight: bold;
+                      color: black;
+                    "
+                  >
+                    <tr>
+                      <th>Header</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="background-color: #b389fa">
+                      <td>Row 1</td>
+                    </tr>
+                    <tr>
+                      <td>Row 2</td>
+                    </tr>
+                    <tr
+                      style="
+                        background-color: #07591c;
+                        color: white;
+                        font-weight: bold;
+                      "
+                    >
+                      <td>Selected Row</td>
+                    </tr>
+                  </tbody>
+                  <tfoot style="background-color: black">
+                    <tr>
+                      <td>Footer</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </section>
+          </section>
+        </div>
+      </section>
+    </form>
+  </body>
+</html>

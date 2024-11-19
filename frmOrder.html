@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dmsorder</title>
+    <style>
+      #secTop {
+        color: white;
+        background-color: black;
+        font-size: xx-large;
+        display: flex;
+        flex-flow: row wrap;
+        column-gap: 100px;
+        align-items: center;
+      }
+
+      #secDown {
+        margin: auto;
+        width: 1000px;
+        background-color: lightgray;
+      }
+
+      #tblOrder {
+        margin: 30px auto;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #lblOrder {
+        margin-left: 20px;
+        font-size: xx-large;
+      }
+
+      .btnTop {
+        width: 115px;
+        height: 35px;
+        font-family: "Times New Roman";
+        font-weight: bold;
+        font-size: large;
+        margin-left: 50px;
+        border: 2px solid black;
+        border-radius: 8px;
+        background-color: white;
+        cursor: pointer;
+      }
+
+      #secOrder {
+        background: url("bgFrames.jpg") no-repeat center center/cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 150%;
+        z-index: -1;
+        opacity: 0.97;
+      }
+
+      .ddlist {
+        width: 258px;
+      }
+
+      .txt {
+        width: 250px;
+      }
+
+      .calendar {
+        width: 100%;
+      }
+
+      .auto-style3 {
+        height: 107px;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="secOrder">
+      <div>
+        <section id="secTop">
+          <label id="lblOrder">Order</label>
+          <table id="tblBtn">
+            <tr>
+              <td><button class="btnTop">Add</button></td>
+              <td>
+                <button
+                  class="btnTop"
+                  onclick="window.location.href='frmOrderView.html'"
+                >
+                  View Orders
+                </button>
+              </td>
+              <!--         <td>
+                <button class="btnTop">Design</button>
+              </td> -->
+              <td>
+                <button
+                  class="btnTop"
+                  onclick="window.location.href='frmMain.html'"
+                >
+                  Home
+                </button>
+              </td>
+            </tr>
+          </table>
+        </section>
+
+        <section id="secDown">
+          <table id="tblOrder">
+            <tr>
+              <td><label>Customer ID:</label></td>
+              <td><span id="lblcus_id"></span></td>
+              <td></td>
+              <td><label>Set Price:</label></td>
+              <td>
+                <input
+                  type="text"
+                  id="txtsetprice"
+                  onchange="setPriceChanged()"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><label>Customer Name:</label></td>
+              <td>
+                <select
+                  id="cus_list"
+                  class="ddlist"
+                  onchange="customerSelected()"
+                >
+                  <option>Select Customer</option>
+                  <!-- Add options dynamically using JavaScript -->
+                </select>
+              </td>
+              <td></td>
+              <td><label>Suite Price:</label></td>
+              <td><input type="text" id="txtOrsuiteprice" class="txt" /></td>
+            </tr>
+            <tr>
+              <td><label>Design ID:</label></td>
+              <td>
+                <select id="design_list" onchange="designSelected()">
+                  <option>Select Design</option>
+                  <!-- Add options dynamically using JavaScript -->
+                </select>
+              </td>
+              <td></td>
+              <td><label>Design Price:</label></td>
+              <td><input type="text" id="txtOrdsnprice" class="txt" /></td>
+            </tr>
+            <tr>
+              <td><label>Silai:</label></td>
+              <td>
+                <select
+                  id="ddL_salai"
+                  class="ddlist"
+                  onchange="salaiSelected()"
+                >
+                  <option>Select Salai Type</option>
+                  <option>Single</option>
+                  <option>Double</option>
+                </select>
+              </td>
+              <td></td>
+              <td><label>Total Price:</label></td>
+              <td><input type="text" id="txtOrtotalprice" class="txt" /></td>
+            </tr>
+            <tr>
+              <td><label>Suite:</label></td>
+              <td>
+                <select id="ddL_suite" class="ddlist">
+                  <!-- Add options from 1 to 20 -->
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <!-- Continue up to 20 -->
+                </select>
+              </td>
+              <td></td>
+              <td>
+                <button onclick="calculatePrice()">Calculate Price</button>
+              </td>
+            </tr>
+            <tr>
+              <td><label>Advance:</label></td>
+              <td><input type="text" id="txtOrdadnavce" class="txt" /></td>
+              <td></td>
+              <td><label>Remaining:</label></td>
+              <td><input type="text" id="txtOrdRemaining" class="txt" /></td>
+            </tr>
+            <tr>
+              <td><label>Order Date:</label></td>
+              <td><input type="date" id="txtorddate" class="txt" /></td>
+              <td></td>
+              <td><label>Delivery Date:</label></td>
+              <td><input type="date" id="txtdevdate" class="txt" /></td>
+            </tr>
+            <tr>
+              <td><label>Order Date:</label></td>
+              <td><input type="date" id="clOrdate" class="calendar" /></td>
+              <td></td>
+              <td><label>Delivery Date:</label></td>
+              <td><input type="date" id="clOrdeldate" class="calendar" /></td>
+            </tr>
+            <tr>
+              <td><label>Properties:</label></td>
+              <td>
+                <label
+                  ><input type="radio" name="kalr" value="Kalr" /> Kalr</label
+                >
+                <label
+                  ><input type="radio" name="kalr" value="Gol Ban" /> Gol
+                  Ban</label
+                >
+                <label
+                  ><input type="radio" name="kalr" value="Choras Ban" /> Choras
+                  Ban</label
+                >
+              </td>
+              <td>
+                <label
+                  ><input type="radio" name="ghera" value="Gol Ghera" /> Gol
+                  Ghera</label
+                >
+                <label
+                  ><input type="radio" name="ghera" value="Choras Ghera" />
+                  Choras Ghera</label
+                >
+              </td>
+              <td>
+                <label
+                  ><input
+                    type="radio"
+                    name="frontPocket"
+                    value="Front Pocket 1"
+                  />
+                  Front Pocket 1</label
+                >
+                <label
+                  ><input
+                    type="radio"
+                    name="frontPocket"
+                    value="Front Pocket 2"
+                  />
+                  Front Pocket 2</label
+                >
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <label
+                  ><input
+                    type="radio"
+                    name="sidePocket"
+                    value="Side Pocket 1"
+                  />
+                  Side Pocket 1</label
+                >
+                <label
+                  ><input
+                    type="radio"
+                    name="sidePocket"
+                    value="Side Pocket 2"
+                  />
+                  Side Pocket 2</label
+                >
+              </td>
+              <td>
+                <label
+                  ><input
+                    type="radio"
+                    name="shalPocket"
+                    value="Shalwar Pocket"
+                  />
+                  Shalwar Pocket</label
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button onclick="collectProperties()">
+                  Collect All Properties
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td><label>All Selected Properties:</label></td>
+              <td>
+                <textarea id="txtareaProperties" class="auto-style3"></textarea>
+              </td>
+            </tr>
+          </table>
+        </section>
+      </div>
+    </section>
+
+    <script>
+      // JavaScript functions for events (e.g., addOrder, viewOrders, setPriceChanged)
+      function addOrder() {
+        alert("Add order clicked");
+      }
+      function viewOrders() {
+        alert("View orders clicked");
+      }
+      function designOrder() {
+        alert("Design order clicked");
+      }
+      function goHome() {
+        alert("Home clicked");
+      }
+      function setPriceChanged() {
+        alert("Price changed");
+      }
+      function customerSelected() {
+        alert("Customer selected");
+      }
+      function designSelected() {
+        alert("Design selected");
+      }
+      function salaiSelected() {
+        alert("Salai selected");
+      }
+      function calculatePrice() {
+        alert("Calculate price clicked");
+      }
+      function collectProperties() {
+        alert("Collect properties clicked");
+      }
+    </script>
+  </body>
+</html>

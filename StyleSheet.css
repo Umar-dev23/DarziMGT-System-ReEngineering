@@ -1,0 +1,107 @@
+﻿.secMain {
+    background: url('bgFrames.jpg') no-repeat center center/cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.97;
+}
+
+
+
+.secTop {
+    color: white;
+    background-color: black;
+    font-size: xx-large;
+    font-size: xx-large;
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 100px;
+    align-items: center;
+}
+
+.lbl {
+    margin-left: 20px;
+}
+
+.tblBtn {
+    margin-left: 50px;
+}
+
+.btnTop {
+    width: 85px;
+    height: 35px;
+    font-family: 'Times New Roman';
+    font-weight: bold;
+    font-size: large;
+    margin-left: 50px;
+    border: 2px solid black;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+}
+.flexContainer {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 100px;
+    margin-top: 20px;
+}
+
+.secLeft {
+    width: 350px;
+    background-color: lightgray;
+}
+
+.btnLeft {
+    background-color: black;
+    border: 2px solid black;
+    color: white;
+    width: 80px;
+    height: 30px;
+    border-radius: 8px;
+    font-family: 'Times New Roman';
+    font-size: large;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    .secLeft table {
+        margin: 40px auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+.secDown {
+    background-color: lightgray;
+}
+
+
+.grd {
+    width: 800px;
+    text-align: center;
+    font-size: large;
+    color: black;
+    background-color: white;
+    text-decoration: none;
+}
+
+
+
+.txtSearch {
+    border: 2px solid white;
+    border-radius: 8px;
+    width: 130px;
+    margin-left: 20px;
+    margin-right: -50px;
+}
+
+
+
+
+
+
+
+
+
