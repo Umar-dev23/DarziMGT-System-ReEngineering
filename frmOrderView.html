@@ -4,46 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>dmsorderview</title>
-    <link rel="stylesheet" href="StyleSheet.css" />
-    <style>
-      #grdOrder {
-        margin: 10px auto;
-        width: 1350px;
-        text-align: center;
-        font-size: large;
-        color: black;
-        background-color: white;
-      }
-      .auto-style1 {
-        width: 150px;
-        height: 25px;
-      }
-      .auto-style2 {
-        height: 25px;
-      }
-      .auto-style3 {
-        width: 85px;
-        height: 35px;
-        font-family: "Times New Roman";
-        font-weight: bold;
-        font-size: large;
-        margin-left: 53px;
-        border: 2px solid black;
-        border-radius: 8px;
-        background-color: white;
-        cursor: pointer;
-      }
-      #lblmessage {
-        font-size: 15px;
-        color: yellow;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/orderview.css" />
   </head>
   <body>
     <section id="secOrderView" class="secMain">
       <div>
         <section class="secTop">
-          <label id="lblOrder" class="lblHead">Order</label>&nbsp;
+          <label id="lblOrder" class="lblHead" id="lblheader">Order</label>&nbsp;
           <table id="tblBtn">
             <tr>
               <td class="auto-style2">
@@ -56,37 +23,21 @@
                 >&nbsp;
               </td>
               <td class="auto-style2">&nbsp;</td>
-              <td class="auto-style2">
-                <input
-                  type="text"
-                  class="txtSearch"
-                  id="txtsearch"
-                  placeholder="Search"
-                />
-              </td>
-              <td class="auto-style2">
-                <button
-                  class="auto-style3"
-                  id="btnOrdSearch"
-                  onclick="searchOrder()"
-                >
-                  Search</button
-                >&nbsp;
-              </td>
+
               <td class="auto-style2">
                 <button
                   class="btnTop"
                   id="btnOrder"
-                  onclick="window.location.href='frmOrder.html'"
+                  onclick="window.location.href='/orders/new'"
                 >
-                  Order</button
+                  New Order</button
                 >&nbsp;
               </td>
               <td class="auto-style2">
                 <button
                   class="btnTop"
                   id="btnOrdHome"
-                  onclick="window.location.href='frmMain.html'"
+                  onclick="window.location.href='/'"
                 >
                   Home</button
                 >&nbsp;
@@ -103,45 +54,85 @@
             <tr
               style="background-color: #adaaaa; font-weight: bold; color: black"
             >
-              <th>Column 1</th>
-              <th>Column 2</th>
-              <th>Column 3</th>
+              <th>Customer ID</th>
+              <th>Customer Name</th>
+              <th>Design Price</th>
+              <th>Total Price</th>
+              <th>Order Date</th>
+              <th>Delivery Date</th>
               <!-- Add more columns as needed -->
             </tr>
           </thead>
-          <tbody>
-            <tr style="background-color: #b389fa">
-              <td>Data 1</td>
-              <td>Data 2</td>
-              <td>Data 3</td>
-            </tr>
-            <tr>
-              <td>Data 4</td>
-              <td>Data 5</td>
-              <td>Data 6</td>
-            </tr>
-            <!-- Add more rows as needed -->
+          <tbody id="ordersList">
+            <!-- Order details will be populated here -->
           </tbody>
         </table>
       </div>
     </section>
 
     <script>
-      function deleteOrder() {
-        alert("Delete button clicked");
+      async function fetchOrders() {
+        try {
+          const response = await fetch("http://localhost:3000/orders"); // Backend endpoint
+          const orders = await response.json();
+
+          const ordersList = document.getElementById("ordersList");
+          ordersList.innerHTML = ""; // Clear previous rows
+
+          // Loop through each order and add a row to the table
+          orders.forEach((order) => {
+            const row = document.createElement("tr");
+
+            // Create and append cells for each order property
+            row.innerHTML = `
+                          <td>${order._id}</td>
+              <td>${order.customerName}</td>
+              <td>${order.designPrice}</td>
+              <td>${order.totalPrice}</td>
+              <td>${order.orderDate}</td>
+              <td>${order.deliveryDate}</td>
+            `;
+
+            ordersList.appendChild(row);
+          });
+        } catch (error) {
+          console.error("Error fetching orders:", error);
+        }
       }
 
-      function searchOrder() {
-        const searchValue = document.getElementById("txtsearch").value;
-        alert("Search for: " + searchValue);
-      }
+      // Call fetchOrders when the page loads
+      window.onload = fetchOrders;
 
-      function order() {
-        alert("Order button clicked");
-      }
+      async function deleteOrder() {
+        // Prompt the user for the order ID
+        const orderId = prompt("Enter the Order ID to delete:");
 
-      function goHome() {
-        alert("Home button clicked");
+        if (!orderId) {
+          alert("Order ID is required to delete an order.");
+          return;
+        }
+
+        try {
+          // Send DELETE request to the backend
+          const response = await fetch(
+            `http://localhost:3000/orders/${orderId}`,
+            {
+              method: "DELETE",
+            }
+          );
+
+          if (response.ok) {
+            const result = await response.json();
+            alert(result.message); // Notify the user of success
+            fetchOrders(); // Refresh the order list
+          } else {
+            const error = await response.json();
+            alert(`Error: ${error.message}`);
+          }
+        } catch (error) {
+          console.error("Error deleting order:", error);
+          alert("An error occurred while deleting the order.");
+        }
       }
     </script>
   </body>

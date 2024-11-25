@@ -4,74 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>dmsorder</title>
-    <style>
-      #secTop {
-        color: white;
-        background-color: black;
-        font-size: xx-large;
-        display: flex;
-        flex-flow: row wrap;
-        column-gap: 100px;
-        align-items: center;
-      }
-
-      #secDown {
-        margin: auto;
-        width: 1000px;
-        background-color: lightgray;
-      }
-
-      #tblOrder {
-        margin: 30px auto;
-        justify-content: center;
-        align-items: center;
-      }
-
-      #lblOrder {
-        margin-left: 20px;
-        font-size: xx-large;
-      }
-
-      .btnTop {
-        width: 115px;
-        height: 35px;
-        font-family: "Times New Roman";
-        font-weight: bold;
-        font-size: large;
-        margin-left: 50px;
-        border: 2px solid black;
-        border-radius: 8px;
-        background-color: white;
-        cursor: pointer;
-      }
-
-      #secOrder {
-        background: url("bgFrames.jpg") no-repeat center center/cover;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 150%;
-        z-index: -1;
-        opacity: 0.97;
-      }
-
-      .ddlist {
-        width: 258px;
-      }
-
-      .txt {
-        width: 250px;
-      }
-
-      .calendar {
-        width: 100%;
-      }
-
-      .auto-style3 {
-        height: 107px;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/ordernew.css">
   </head>
   <body>
     <section id="secOrder">
@@ -80,22 +13,20 @@
           <label id="lblOrder">Order</label>
           <table id="tblBtn">
             <tr>
-              <td><button class="btnTop">Add</button></td>
+              <td><button class="btnTop" onclick="submitOrder()">Add</button></td>
               <td>
                 <button
                   class="btnTop"
-                  onclick="window.location.href='frmOrderView.html'"
+                  onclick="window.location.href='/orderview'"
                 >
                   View Orders
                 </button>
               </td>
-              <!--         <td>
-                <button class="btnTop">Design</button>
-              </td> -->
+
               <td>
                 <button
                   class="btnTop"
-                  onclick="window.location.href='frmMain.html'"
+                  onclick="window.location.href='/'"
                 >
                   Home
                 </button>
@@ -115,7 +46,7 @@
                 <input
                   type="text"
                   id="txtsetprice"
-                  onchange="setPriceChanged()"
+             
                 />
               </td>
             </tr>
@@ -125,7 +56,7 @@
                 <select
                   id="cus_list"
                   class="ddlist"
-                  onchange="customerSelected()"
+
                 >
                   <option>Select Customer</option>
                   <!-- Add options dynamically using JavaScript -->
@@ -138,8 +69,11 @@
             <tr>
               <td><label>Design ID:</label></td>
               <td>
-                <select id="design_list" onchange="designSelected()">
+                <select id="design_list" ">
                   <option>Select Design</option>
+                  <option>Design 1</option>
+                  <option>Design 2</option>
+
                   <!-- Add options dynamically using JavaScript -->
                 </select>
               </td>
@@ -153,7 +87,7 @@
                 <select
                   id="ddL_salai"
                   class="ddlist"
-                  onchange="salaiSelected()"
+
                 >
                   <option>Select Salai Type</option>
                   <option>Single</option>
@@ -171,13 +105,19 @@
                   <!-- Add options from 1 to 20 -->
                   <option value="1">1</option>
                   <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
                   <!-- Continue up to 20 -->
                 </select>
               </td>
               <td></td>
-              <td>
-                <button onclick="calculatePrice()">Calculate Price</button>
-              </td>
+       
             </tr>
             <tr>
               <td><label>Advance:</label></td>
@@ -193,13 +133,7 @@
               <td><label>Delivery Date:</label></td>
               <td><input type="date" id="txtdevdate" class="txt" /></td>
             </tr>
-            <tr>
-              <td><label>Order Date:</label></td>
-              <td><input type="date" id="clOrdate" class="calendar" /></td>
-              <td></td>
-              <td><label>Delivery Date:</label></td>
-              <td><input type="date" id="clOrdeldate" class="calendar" /></td>
-            </tr>
+           
             <tr>
               <td><label>Properties:</label></td>
               <td>
@@ -264,67 +198,103 @@
                   Side Pocket 2</label
                 >
               </td>
-              <td>
-                <label
-                  ><input
-                    type="radio"
-                    name="shalPocket"
-                    value="Shalwar Pocket"
-                  />
-                  Shalwar Pocket</label
-                >
-              </td>
+             
             </tr>
-            <tr>
-              <td>
-                <button onclick="collectProperties()">
-                  Collect All Properties
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td><label>All Selected Properties:</label></td>
-              <td>
-                <textarea id="txtareaProperties" class="auto-style3"></textarea>
-              </td>
-            </tr>
+            
           </table>
         </section>
       </div>
     </section>
 
     <script>
-      // JavaScript functions for events (e.g., addOrder, viewOrders, setPriceChanged)
-      function addOrder() {
-        alert("Add order clicked");
+      // Function to populate customers from the backend
+      async function populateCustomers() {
+        try {
+          const response = await fetch('http://localhost:3000/users');
+          const users = await response.json();
+
+          const customerSelect = document.getElementById("cus_list");
+
+          // Clear existing options
+          customerSelect.innerHTML = '<option value="">Select Customer</option>';
+
+          // Populate the dropdown with fetched users
+          users.forEach(user => {
+            const option = document.createElement("option");
+            option.value = user._id; // Assuming user._id is the unique identifier
+            option.textContent = user.name; // Assuming user.name is the display name
+            customerSelect.appendChild(option);
+          });
+        } catch (error) {
+          alert("Error fetching users: " + error.message);
+        }
       }
-      function viewOrders() {
-        alert("View orders clicked");
-      }
-      function designOrder() {
-        alert("Design order clicked");
-      }
-      function goHome() {
-        alert("Home clicked");
-      }
-      function setPriceChanged() {
-        alert("Price changed");
-      }
+
+      // Function to update customer ID when a customer is selected
       function customerSelected() {
-        alert("Customer selected");
+        const customerSelect = document.getElementById("cus_list");
+        const customerIdField = document.getElementById("lblcus_id");
+        customerIdField.textContent = customerSelect.value; // Display the selected customer's ID
       }
-      function designSelected() {
-        alert("Design selected");
-      }
-      function salaiSelected() {
-        alert("Salai selected");
-      }
-      function calculatePrice() {
-        alert("Calculate price clicked");
-      }
-      function collectProperties() {
-        alert("Collect properties clicked");
-      }
+
+      // On page load, fetch customers and populate the dropdown
+      window.onload = function () {
+        populateCustomers();
+      };
+
+      //post jaaa riii haiiii
+      async function submitOrder() {
+  // Collect form data
+  const customerId = document.getElementById("cus_list").value;
+  const customerName = document.getElementById("cus_list").options[document.getElementById("cus_list").selectedIndex].text;
+  const suitePrice = document.getElementById("txtsetprice").value;
+  const designPrice = document.getElementById("txtOrsuiteprice").value;
+  const totalPrice = document.getElementById("txtOrtotalprice").value;
+  const advance = document.getElementById("txtOrdadnavce").value;
+  const remaining = document.getElementById("txtOrdRemaining").value;
+  const orderDate = document.getElementById("txtorddate").value;
+  const deliveryDate = document.getElementById("txtdevdate").value;
+  const salaiType = document.getElementById("ddL_salai").value;
+  const suiteNumber = document.getElementById("ddL_suite").value;
+  const properties = document.getElementById("txtareaProperties").value;
+
+  // Prepare the order data
+  const orderData = {
+    customerId,
+    customerName,
+    suitePrice,
+    designPrice,
+    totalPrice,
+    advance,
+    remaining,
+    orderDate,
+    deliveryDate,
+    salaiType,
+    suiteNumber,
+    properties
+  };
+
+  // Send POST request to the backend
+  try {
+    const response = await fetch('http://localhost:3000/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(orderData)
+    });
+
+    const result = await response.json();
+    if (response.status === 201) {
+      alert(result.message); // Order added successfully
+    } else {
+      alert("Error: " + result.message); // Error adding order
+    }
+  } catch (error) {
+    alert("Failed to add order: " + error.message);
+  }
+}
+
     </script>
   </body>
 </html>

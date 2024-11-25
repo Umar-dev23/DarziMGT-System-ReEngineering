@@ -1,0 +1,179 @@
+/* General body styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4; /* Light background for the whole page */
+  color: #333; /* Dark text for readability */
+}
+
+/* Section Styling */
+.secMain {
+  margin: 20px;
+}
+
+.secTop {
+  background-color: #007bff; /* Blue background for top section */
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.lbl {
+  font-size: 36px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+#tblBtn {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#tblBtn td {
+  padding: 10px;
+}
+
+.btnTop {
+  background-color: #28a745; /* Green buttons */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btnTop:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.secLeft {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 45%;
+}
+
+.secDown {
+  width: 50%;
+  margin-left: 10px;
+}
+
+#tblMeasurement {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#tblMeasurement td,
+#tblMeasurement th {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+#tblMeasurement th {
+  background-color: #f0f0f0;
+  text-align: left;
+}
+
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.grid th,
+.grid td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.grid th {
+  background-color: #007bff;
+  color: white;
+}
+
+.grid tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.grid tr:hover {
+  background-color: #ddd;
+}
+
+.grid td {
+  text-align: center;
+}
+
+/* Input and Button Styling */
+input[type="text"],
+select {
+  padding: 8px;
+  margin: 8px 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="button"].btn {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button[type="button"].btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+#lblmessage {
+  display: block;
+  margin-top: 10px;
+  font-size: 18px;
+  color: yellow;
+  background-color: red;
+  padding: 5px;
+  text-align: center;
+}
+
+/* Flexbox Container for left and right sections */
+.flexContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .flexContainer {
+    flex-direction: column;
+  }
+
+  .secLeft,
+  .secDown {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .secTop {
+    padding: 15px;
+  }
+
+  .lbl {
+    font-size: 30px;
+  }
+
+  .btnTop {
+    font-size: 16px;
+  }
+
+  .grid th,
+  .grid td {
+    font-size: 14px;
+  }
+}

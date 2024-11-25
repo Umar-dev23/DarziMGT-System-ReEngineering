@@ -2,68 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>dmsmain</title>
-    <style>
-      #secMain {
-        background: url("bgMain.jpg") no-repeat center center/cover;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        opacity: 0.83;
-      }
-      #lblMain {
-        font-size: xx-large;
-        font-weight: bold;
-        margin-left: 150px;
-        color: white;
-      }
-      #tblTop {
-        margin: auto;
-        background-color: black;
-        text-align: center;
-        width: 100%;
-        height: 70px;
-      }
-      #btnLogout {
-        background-color: white;
-        color: black;
-        cursor: pointer;
-        width: 80px;
-        height: 25px;
-        border: 2px solid white;
-        border-radius: 7px;
-        font-family: "Times New Roman";
-        font-size: medium;
-      }
-      #tblBtn {
-        margin: 50px auto;
-      }
-      .btnDown {
-        font-family: "Times New Roman";
-        font-weight: bold;
-        border: 3px solid black;
-        border-radius: 10px;
-        width: 160px;
-        height: 100px;
-        font-size: 25px;
-        cursor: pointer;
-        background-color: black;
-        color: white;
-        opacity: 0.7;
-      }
-      #grdMain {
-        opacity: 0.87;
-        margin: auto;
-        width: 800px;
-        text-align: center;
-        font-size: large;
-        color: black;
-        background-color: white;
-        text-decoration: none;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/main.css" />
   </head>
   <body>
     <section id="secMain">
@@ -74,9 +13,6 @@
               <td>
                 <label id="lblMain">Darzi Management System</label>
               </td>
-              <!--              <td>
-                <button id="btnLogout" type="button">Log Out</button>
-              </td> -->
             </tr>
           </table>
 
@@ -87,7 +23,7 @@
                   class="btnDown"
                   id="btnCustomer"
                   type="button"
-                  onclick="window.location.href='frmCustomer.html'"
+                  onclick="window.location.href='/user'"
                 >
                   Customer</button
                 >&nbsp;
@@ -97,27 +33,17 @@
                   class="btnDown"
                   id="btnOrd"
                   type="button"
-                  onclick="window.location.href='frmOrder.html'"
+                  onclick="window.location.href='/orders/new'"
                 >
                   Order</button
                 >&nbsp;
               </td>
-              <!--             <td>
-                <button
-                  class="btnDown"
-                  id="btnDesign"
-                  type="button"
-                  onclick="window.location.href='frmDesign.html'"
-                >
-                  Design</button
-                >&nbsp;
-              </td> -->
               <td>
                 <button
                   class="btnDown"
                   id="btnMeasurement"
                   type="button"
-                  onclick="window.location.href='frmMeasurement.html'"
+                  onclick="window.location.href='/measurement'"
                 >
                   Measurement</button
                 >&nbsp;
@@ -126,7 +52,6 @@
           </table>
 
           <div id="grdMain">
-            <!-- GridView representation can be a table if necessary -->
             <table>
               <thead
                 style="
@@ -136,35 +61,66 @@
                 "
               >
                 <tr>
-                  <th>Header</th>
+                  <th>Customer Name</th>
+                  <th>Number of Dresses</th>
+                  <th>Order Price</th>
+                  <th>Due Date</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr style="background-color: #b389fa">
-                  <td>Row 1</td>
-                </tr>
-                <tr>
-                  <td>Row 2</td>
-                </tr>
-                <tr
-                  style="
-                    background-color: #07591c;
-                    color: white;
-                    font-weight: bold;
-                  "
-                >
-                  <td>Selected Row</td>
-                </tr>
+              <tbody id="tblBody">
+                <!-- Table rows will be inserted dynamically here -->
               </tbody>
-              <tfoot style="background-color: black">
-                <tr>
-                  <td>Footer</td>
-                </tr>
-              </tfoot>
             </table>
           </div>
         </div>
       </form>
     </section>
+
+    <script>
+      // Function to fetch and display data
+      async function fetchData() {
+        try {
+          // Fetch customers and orders from the server
+          const usersResponse = await fetch("/users");
+          const users = await usersResponse.json();
+
+          const ordersResponse = await fetch("/orders");
+          const orders = await ordersResponse.json();
+
+          // Filter orders and match with users based on customerId
+          const mixedData = users
+            .map((user) => {
+              const userOrders = orders.filter(
+                (order) => order.customerId === user._id
+              );
+              return userOrders.map((order) => ({
+                customerName: user.name,
+                suitenumber: order.suiteNumber,
+                orderPrice: order.totalPrice,
+                dueDate: order.deliveryDate,
+              }));
+            })
+            .flat();
+
+          // Create table rows dynamically
+          const tableBody = document.getElementById("tblBody");
+          mixedData.forEach((data) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${data.customerName}</td>
+              <td>${data.suitenumber}</td>
+              <td>${data.orderPrice}</td>
+              <td>${data.dueDate}</td>
+            `;
+            tableBody.appendChild(row);
+          });
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+
+      // Call fetchData to load the data when the page loads
+      window.onload = fetchData;
+    </script>
   </body>
 </html>

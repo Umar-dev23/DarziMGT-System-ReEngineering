@@ -5,61 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>dmsmeasurement</title>
-    <link rel="stylesheet" href="StyleSheet.css" />
-    <style>
-      #lblmessage {
-        font-size: 23px;
-        background-color: red;
-        color: yellow;
-      }
-      .secLeft {
-        height: 500px;
-      }
-      .btn {
-        margin: 5px;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #000;
-        background-color: #fff;
-        cursor: pointer;
-      }
-
-      .btnTop {
-        width: 110px;
-        height: 35px;
-        font-family: "Times New Roman";
-        font-weight: bold;
-        font-size: large;
-        margin-left: 50px;
-        border: 2px solid black;
-        border-radius: 8px;
-        background-color: white;
-        cursor: pointer;
-      }
-      .txtSearch,
-      input[type="text"] {
-        padding: 3px;
-        margin: 5px;
-        width: 150px;
-      }
-      .grid {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-      }
-      .grid th,
-      .grid td {
-        border: 1px solid #ddd;
-        padding: 8px;
-      }
-      .grid th {
-        background-color: #adaaaa;
-        color: black;
-      }
-      .grid tr:nth-child(even) {
-        background-color: #b389fa;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/measurement.css" />
   </head>
   <body>
     <form id="measurementForm">
@@ -87,17 +33,12 @@
                     Update
                   </button>
                 </td>
-                <td>
-                  <input type="text" class="txtSearch" id="txtSearch" />
-                </td>
-                <td>
-                  <button type="button" class="btn btnTop">Search</button>
-                </td>
+
                 <td>
                   <button
                     type="button"
                     class="btn btnTop"
-                    onclick="window.location.href='frmMain.html'"
+                    onclick="window.location.href='/'"
                   >
                     Home
                   </button>
@@ -198,23 +139,187 @@
     </form>
 
     <script>
-      function handleDelete() {
-        alert("Delete button clicked");
+      //available customers
+      async function populateCustomers() {
+        try {
+          const response = await fetch("http://localhost:3000/users");
+          const users = await response.json();
+
+          const customerSelect = document.getElementById("cusName");
+
+          // Clear existing options
+          customerSelect.innerHTML =
+            '<option value="">Select Customer</option>';
+
+          // Populate the dropdown with fetched users
+          users.forEach((user) => {
+            const option = document.createElement("option");
+            option.value = user._id; // Assuming user._id is the unique identifier
+            option.textContent = user.name; // Assuming user.name is the display name
+            customerSelect.appendChild(option);
+          });
+        } catch (error) {
+          alert("Error fetching users: " + error.message);
+        }
       }
-      function handleUpdate() {
-        alert("Update button clicked");
+      document
+        .getElementById("cusName")
+        .addEventListener("change", function () {
+          const customerIdField = document.getElementById("customerId");
+          customerIdField.textContent = this.value; // Display the selected customer's ID
+        });
+
+      // Load measurements on page load
+      async function fetchMeasurements() {
+        try {
+          const response = await fetch("http://localhost:3000/measurements");
+          const measurements = await response.json();
+
+          const tbody = document.querySelector(".grid tbody");
+          tbody.innerHTML = "";
+
+          measurements.forEach((measurement) => {
+            const row = `
+        <tr>
+          <td>${measurement._id}</td>
+          <td>${measurement.customerName}</td>
+          <td>${measurement.qamizLength}</td>
+          <td>${measurement.shalwarLength}</td>
+          <td>${measurement.teera}</td>
+          <td>${measurement.bazoo}</td>
+          <td>${measurement.chati}</td>
+          <td>${measurement.kamr}</td>
+          <td>${measurement.daman}</td>
+          <td>${measurement.asen}</td>
+          <td>${measurement.paincha}</td>
+        </tr>
+      `;
+            tbody.innerHTML += row;
+          });
+        } catch (error) {
+          alert("Error fetching measurements: " + error.message);
+        }
       }
-      function handleSearch() {
-        alert("Search function triggered");
+
+      //on load
+      window.onload = function () {
+        populateCustomers();
+        fetchMeasurements(); // Assuming this function is already added to fetch measurements
+      };
+
+      //Adding measurment
+      async function handleAdd() {
+        const customerId = document.getElementById("cusName").value; // Get selected customer ID
+        const customerName =
+          document.getElementById("cusName").options[
+            document.getElementById("cusName").selectedIndex
+          ].text; // Get the customer name
+        if (!customerId) {
+          alert("Please select a customer!");
+          return;
+        }
+
+        const measurementData = {
+          customerId: customerId, // Include customer ID in the data
+          customerName: customerName, // Include customer name in the data
+          qamizLength: document.getElementById("qamizLength").value,
+          shalwarLength: document.getElementById("shalwarLength").value,
+          teera: document.getElementById("teera").value,
+          bazoo: document.getElementById("bazoo").value,
+          chati: document.getElementById("chati").value,
+          kamr: document.getElementById("kamr").value,
+          daman: document.getElementById("daman").value,
+          asen: document.getElementById("asen").value,
+          paincha: document.getElementById("paincha").value,
+        };
+
+        try {
+          const response = await fetch("http://localhost:3000/measurements", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(measurementData),
+          });
+
+          if (response.ok) {
+            alert("Measurement added successfully!");
+            fetchMeasurements(); // Function to refresh the list of measurements
+          } else {
+            const error = await response.json();
+            alert("Error: " + error.error);
+          }
+        } catch (error) {
+          alert("Error: " + error.message);
+        }
       }
-      function goHome() {
-        window.location.href = "home.html";
+
+      //update
+      async function handleUpdate() {
+        const measurementId = prompt(
+          "Enter the ID of the measurement to update:"
+        );
+        if (!measurementId) return;
+
+        const updatedData = {
+          customerName: document.getElementById("cusName").value,
+          qamizLength: document.getElementById("qamizLength").value,
+          shalwarLength: document.getElementById("shalwarLength").value,
+          teera: document.getElementById("teera").value,
+          bazoo: document.getElementById("bazoo").value,
+          chati: document.getElementById("chati").value,
+          kamr: document.getElementById("kamr").value,
+          daman: document.getElementById("daman").value,
+          asen: document.getElementById("asen").value,
+          paincha: document.getElementById("paincha").value,
+        };
+
+        try {
+          const response = await fetch(
+            `http://localhost:3000/measurements/${measurementId}`,
+            {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(updatedData),
+            }
+          );
+
+          if (response.ok) {
+            alert("Measurement updated successfully!");
+            fetchMeasurements();
+          } else {
+            const error = await response.json();
+            alert("Error: " + error.error);
+          }
+        } catch (error) {
+          alert("Error: " + error.message);
+        }
       }
-      function handleAdd() {
-        alert("Add button clicked");
-      }
-      function handleCancel() {
-        document.getElementById("measurementForm").reset();
+
+      //delete
+      async function handleDelete() {
+        const measurementId = prompt(
+          "Enter the ID of the measurement to delete:"
+        );
+
+        if (!measurementId) return;
+
+        try {
+          const response = await fetch(
+            `http://localhost:3000/measurements/${measurementId}`,
+            {
+              method: "DELETE",
+            }
+          );
+
+          if (response.ok) {
+            alert("Measurement deleted successfully!");
+            fetchMeasurements();
+          } else {
+            const error = await response.json();
+            alert("Error: " + error.error);
+          }
+        } catch (error) {
+          alert("Error: " + error.message);
+        }
       }
     </script>
   </body>

@@ -1,0 +1,219 @@
+/* General Styles */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f7fc; /* Light off-white background with a subtle tint */
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 30px auto;
+  background: #ffffff; /* White background */
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+}
+
+/* Header Section */
+#secOrderView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+#secTop {
+  width: 100%;
+  background-color: #3f51b5; /* Rich blue background */
+  color: white;
+  padding: 20px 0;
+  font-size: 32px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#secTop .lblHead {
+  margin-left: 25px;
+  font-size: 28px;
+}
+
+#tblBtn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Button Styling */
+.btnTop {
+  width: 160px;
+  height: 50px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  border: 2px solid #1976d2; /* Darker blue border */
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #1976d2; /* Darker blue text */
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnTop:hover {
+  background-color: #1976d2;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Table */
+#grdOrder {
+  width: 100%;
+  margin-top: 40px;
+  border-collapse: collapse;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#grdOrder th,
+#grdOrder td {
+  padding: 20px;
+  text-align: center;
+  font-size: 16px;
+  border: 1px solid #ddd; /* Light gray border */
+}
+
+#grdOrder th {
+  background-color: #3f51b5; /* Rich blue background */
+  color: white;
+  text-transform: uppercase;
+}
+
+#grdOrder tr:nth-child(even) {
+  background-color: #f5f5f5; /* Very light gray for alternate rows */
+}
+
+#grdOrder tr:nth-child(odd) {
+  background-color: #ffffff; /* White for odd rows */
+}
+
+#grdOrder tr:hover {
+  background-color: #e8eaf6; /* Subtle blue hover effect */
+}
+
+#grdOrder td {
+  color: #333; /* Dark text color */
+  font-weight: normal;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: 280px;
+  padding: 14px;
+  border: 2px solid #90caf9; /* Light blue border */
+  border-radius: 8px;
+  font-size: 16px;
+  margin: 15px 0;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #3f51b5; /* Focus blue */
+}
+
+input[type="text"],
+input[type="number"] {
+  color: #333;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Footer Section */
+.footer {
+  background: #3f51b5; /* Blue background */
+  color: #ffffff;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.footer a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* Links */
+a {
+  color: #1565c0; /* Dark blue */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+  #secTop {
+    font-size: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #tblBtn {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .btnTop {
+    width: 100%;
+    font-size: 16px;
+    height: 45px;
+  }
+
+  #grdOrder th,
+  #grdOrder td {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .container {
+    padding: 20px;
+  }
+
+  #secOrderView {
+    margin-top: 20px;
+  }
+}
+/* Main Title for Order */
+#lblheader {
+  font-size: 70px !important; /* Larger font size for prominence */
+  font-weight: bold;
+  color: #ffffff; /* White text for contrast */
+  text-transform: uppercase; /* Making the text uppercase for emphasis */
+  letter-spacing: 2px; /* Slightly increased letter spacing for a more refined look */
+  margin-left: 20px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow to make the text pop */
+  padding: 0 20px;
+}

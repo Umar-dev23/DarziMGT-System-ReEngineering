@@ -1,24 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <title>dmscustomer</title>
-    <link rel="stylesheet" href="StyleSheet.css" />
-    <style>
-      #lblmessage {
-        font-size: 23px;
-        background-color: red;
-        color: yellow;
-      }
-      .secLeft {
-        height: 230px;
-      }
-    </style>
+    <title>DMS Customer</title>
+    <link rel="stylesheet" href="/css/customer.css" />
   </head>
   <body>
     <form id="frmCustomer">
       <section id="secCustomer" class="secMain">
         <div>
-          <!-- Top Section_label and button -->
+          <!-- Top Section: Label and Buttons -->
           <section class="secTop">
             <label id="lblCustomer" class="lbl">Customer Registration</label>
             <table id="tblBtn">
@@ -34,7 +24,12 @@
                   >&nbsp;
                 </td>
                 <td>
-                  <input type="text" id="txtsearch" class="txtSearch" />
+                  <input
+                    type="text"
+                    id="txtsearch"
+                    class="txtSearch"
+                    placeholder="Search Customers..."
+                  />
                 </td>
                 <td>
                   <button id="btnCusSearch" class="btnTop" type="button">
@@ -46,7 +41,7 @@
                     id="btnCushome"
                     class="btnTop"
                     type="button"
-                    onclick="window.location.href='frmMain.html'"
+                    onclick="window.location.href='/'"
                   >
                     Home</button
                   >&nbsp;
@@ -60,15 +55,15 @@
               <table id="tblCustomer">
                 <tr>
                   <td><label id="lblCusname">Name</label>&nbsp;</td>
-                  <td><input type="text" id="txtCusname" />&nbsp;</td>
+                  <td><input type="text" id="txtCusname" /></td>
                 </tr>
                 <tr>
                   <td><label id="lblCusphone">Phone</label>&nbsp;</td>
-                  <td><input type="text" id="txtCusphone" />&nbsp;</td>
+                  <td><input type="text" id="txtCusphone" /></td>
                 </tr>
                 <tr>
                   <td><label id="lblCusaddress">Address</label>&nbsp;</td>
-                  <td><input type="text" id="txtCusaddress" />&nbsp;</td>
+                  <td><input type="text" id="txtCusaddress" /></td>
                 </tr>
                 <tr>
                   <td></td>
@@ -87,41 +82,24 @@
 
             <section class="secDown">
               <div id="grdCustomer" class="grd">
-                <!-- GridView representation can be a table -->
+                <!-- GridView representation -->
                 <table>
-                  <thead
-                    style="
-                      background-color: #adaaaa;
-                      font-weight: bold;
-                      color: black;
-                    "
-                  >
+                  <thead>
                     <tr>
-                      <th>Header</th>
+                      <th>Customers</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style="background-color: #b389fa">
+                    <tr>
                       <td>Row 1</td>
                     </tr>
                     <tr>
                       <td>Row 2</td>
                     </tr>
-                    <tr
-                      style="
-                        background-color: #07591c;
-                        color: white;
-                        font-weight: bold;
-                      "
-                    >
+                    <tr>
                       <td>Selected Row</td>
                     </tr>
                   </tbody>
-                  <tfoot style="background-color: black">
-                    <tr>
-                      <td>Footer</td>
-                    </tr>
-                  </tfoot>
                 </table>
               </div>
             </section>
@@ -130,4 +108,166 @@
       </section>
     </form>
   </body>
+  <script>
+    //add a customer
+    document.getElementById("btnCusadd").addEventListener("click", async () => {
+      const name = document.getElementById("txtCusname");
+      const phone = document.getElementById("txtCusphone");
+      const address = document.getElementById("txtCusaddress");
+
+      // Check if all fields are filled
+      if (!name.value || !phone.value || !address.value) {
+        alert("All fields are required!");
+        return;
+      }
+
+      // Prepare data to send
+      const userData = {
+        name: name.value,
+        phone: phone.value,
+        address: address.value,
+      };
+
+      try {
+        const response = await fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        });
+
+        if (response.ok) {
+          alert("USER ADDED SUCCESSFULLY");
+          name.value = ""; // Clear the input fields
+          phone.value = "";
+          address.value = "";
+
+          loadUsers(); // Reload the user list
+        } else {
+          alert("Error adding user.");
+        }
+      } catch (error) {
+        alert("An error occurred while adding the user.");
+        console.error("Error:", error);
+      }
+    });
+
+    //load users
+    async function loadUsers() {
+      const response = await fetch("http://localhost:3000/users");
+      const users = await response.json();
+
+      const tbody = document.querySelector("#grdCustomer tbody");
+      tbody.innerHTML = ""; // Clear existing rows
+
+      users.forEach((user) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+      <td>${user.name}</td>
+      <td>${user.phone}</td>
+      <td>${user.address}</td>
+      <td>
+        <button onclick="deleteUser('${user._id}')">Delete</button>
+        <button onclick="editUser('${user._id}', '${user.name}', '${user.phone}', '${user.address}')">Edit</button>
+      </td>
+    `;
+        tbody.appendChild(row);
+      });
+    }
+    loadUsers(); // Load users on page load
+
+    //delete a user
+    async function deleteUser(userId) {
+      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        alert("User deleted successfully!");
+        loadUsers(); // Reload the user list
+      } else {
+        alert("Error deleting user.");
+      }
+    }
+
+    //edit
+    //edit function
+    function editUser(userId, name, phone, address) {
+      event.preventDefault(); // Prevent any default form submission behavior
+      document.getElementById("txtCusname").value = name;
+      document.getElementById("txtCusphone").value = phone;
+      document.getElementById("txtCusaddress").value = address;
+
+      // Update button click logic
+      document.getElementById("btnCusupdate").onclick = async (event) => {
+        const updatedName = document.getElementById("txtCusname").value;
+        const updatedPhone = document.getElementById("txtCusphone").value;
+        const updatedAddress = document.getElementById("txtCusaddress").value;
+
+        const response = await fetch(`http://localhost:3000/users/${userId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: updatedName,
+            phone: updatedPhone,
+            address: updatedAddress,
+          }),
+        });
+
+        if (response.ok) {
+          alert("User updated successfully!");
+          loadUsers(); // Reload the user list
+        } else {
+          alert("Error updating user.");
+        }
+      };
+    }
+
+    document
+      .getElementById("btnCusSearch")
+      .addEventListener("click", async () => {
+        const query = document.getElementById("txtsearch").value;
+
+        if (!query) {
+          alert("Please enter a search term.");
+          return;
+        }
+
+        const response = await fetch(
+          `http://localhost:3000/users/search?query=${encodeURIComponent(
+            query
+          )}`
+        );
+
+        if (!response.ok) {
+          alert("Error fetching users.");
+          return;
+        }
+
+        const users = await response.json();
+
+        const tbody = document.querySelector("#grdCustomer tbody");
+        tbody.innerHTML = ""; // Clear existing rows
+
+        if (users.length === 0) {
+          const noResultsRow = document.createElement("tr");
+          noResultsRow.innerHTML = `<td colspan="3">No users found</td>`;
+          tbody.appendChild(noResultsRow);
+          return;
+        }
+
+        users.forEach((user) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+      <td>${user.name}</td>
+      <td>${user.phone}</td>
+      <td>${user.address}</td>
+    `;
+          tbody.appendChild(row);
+        });
+      });
+  </script>
 </html>

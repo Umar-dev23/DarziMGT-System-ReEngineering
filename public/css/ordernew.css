@@ -1,0 +1,154 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e3f2fd; /* Light blue background */
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  background: #ffffff; /* White background */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* Header Section */
+#secTop {
+  color: white;
+  background-color: #2196f3; /* Blue background */
+  font-size: xx-large;
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: 100px;
+  align-items: center;
+}
+
+#secTop #lblOrder {
+  margin: 0;
+  font-size: 24px;
+}
+
+#secDown {
+  margin: auto;
+  width: 1000px;
+  background-color: #e3f2fd; /* Light blue background */
+}
+
+/* Buttons */
+.btnTop {
+  width: 115px;
+  height: 35px;
+  font-family: "Times New Roman";
+  font-weight: bold;
+  font-size: large;
+  margin-left: 50px;
+  border: 2px solid #1976d2; /* Darker blue border */
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btnTop:hover {
+  background: #1976d2; /* Darker blue on hover */
+  color: white;
+}
+
+/* Table */
+#tblOrder {
+  margin: 30px auto;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#tblOrder th,
+#tblOrder td {
+  padding: 10px;
+  border: 1px solid #90caf9; /* Light blue border */
+  text-align: left;
+}
+
+#tblOrder th {
+  background: #2196f3; /* Blue background */
+  color: white; /* White text */
+}
+
+#tblOrder tr:nth-child(even) {
+  background: #bbdefb; /* Very light blue for alternate rows */
+}
+
+#tblOrder tr:hover {
+  background: #90caf9; /* Light blue on hover */
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: 250px;
+  padding: 10px;
+  border: 1px solid #90caf9; /* Light blue border */
+  border-radius: 5px;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #1976d2; /* Highlighted blue */
+}
+
+/* Section Background */
+#secOrder {
+  background: url("./images/bgFrames.jpg") no-repeat center center/cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 150%;
+  z-index: -1;
+  opacity: 0.97;
+}
+
+/* Select and Input Customizations */
+.ddlist {
+  width: 258px;
+}
+
+.txt {
+  width: 250px;
+}
+
+.calendar {
+  width: 100%;
+}
+
+.auto-style3 {
+  height: 107px;
+}
+
+/* Footer Section */
+.footer {
+  background: #2196f3; /* Blue background */
+  color: #ffffff;
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+/* Links */
+a {
+  color: #1565c0; /* Dark blue */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

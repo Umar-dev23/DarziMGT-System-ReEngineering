@@ -1,0 +1,125 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f8ff;
+  margin: 0;
+  padding: 0;
+}
+
+#secMain {
+  width: 100%;
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  margin: 20px 0;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #4682b4;
+  color: white;
+  font-weight: bold;
+}
+
+td {
+  background-color: #fff;
+}
+
+tr:nth-child(even) {
+  background-color: #e6f1ff;
+}
+
+/* Top Section */
+#tblTop {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#lblMain {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1e3b6d;
+}
+
+/* Button Styling */
+#tblBtn {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.btnDown {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #4f9dc1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btnDown:hover {
+  background-color: #357aa9;
+}
+
+/* Grid Table */
+#grdMain {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+}
+
+tfoot {
+  background-color: #1e3b6d;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Row Colors */
+tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+tr:nth-child(even) {
+  background-color: #e0ebf7;
+}
+
+tr:hover {
+  background-color: #c3d9e4;
+}
+
+tr td.selected {
+  background-color: #1e3b6d;
+  color: white;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  table,
+  th,
+  td {
+    padding: 8px;
+  }
+
+  .btnDown {
+    width: 100%;
+    font-size: 14px;
+  }
+}
